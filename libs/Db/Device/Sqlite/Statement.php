@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the 'octris/core' package.
+ * This file is part of the 'octris/db-sqlite' package.
  *
  * (c) Harald Lapp <harald@octris.org>
  *
@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Octris\Core\Db\Device\Sqlite;
+namespace Octris\Db\Device\Sqlite;
 
 /**
  * SQLite prepared statement.
  *
- * @copyright   copyright (c) 2012-2014 by Harald Lapp
+ * @copyright   copyright (c) 2012-2018 by Harald Lapp
  * @author      Harald Lapp <harald@octris.org>
  */
 class Statement
@@ -22,7 +22,7 @@ class Statement
     /**
      * Instance of device.
      *
-     * @type    \Octris\Core\Db\Device\Sqlite
+     * @type    \Octris\Db\Device\Sqlite
      */
     protected $device;
 
@@ -48,10 +48,10 @@ class Statement
     /**
      * Constructor.
      *
-     * @param   \Octris\Core\Db\Device\Sqlite   $device         Instance of device.
+     * @param   \Octris\Db\Device\Sqlite            $device         Instance of device.
      * @param   \SQLite3                            $link           Database connection.
      */
-    public function __construct(\Octris\Core\Db\Device\Sqlite $device, \SQLite3Stmt $link)
+    public function __construct(\Octris\Db\Device\Sqlite $device, \SQLite3Stmt $link)
     {
         $this->device   = $device;
         $this->instance = $link;
@@ -101,12 +101,12 @@ class Statement
     /**
      * Execute the prepared statement.
      *
-     * @return  \Octris\Core\Db\Device\Sqlite\Result                Instance of result class.
+     * @return  \Octris\Db\Device\Sqlite\Result                Instance of result class.
      */
     public function execute()
     {
         $result = $this->instance->execute();
 
-        return new \Octris\Core\Db\Device\Sqlite\Result($this->device, $result);
+        return new \Octris\Db\Device\Sqlite\Result($this->device, $result);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the 'octris/core' package.
+ * This file is part of the 'octris/db-sqlite' package.
  *
  * (c) Harald Lapp <harald@octris.org>
  *
@@ -9,30 +9,30 @@
  * file that was distributed with this source code.
  */
 
-namespace Octris\Core\Db\Device\Sqlite;
+namespace Octris\Db\Device\Sqlite;
 
 /**
  * SQLite connection handler.
  *
- * @copyright   copyright (c) 2012-2014 by Harald Lapp
+ * @copyright   copyright (c) 2012-2018 by Harald Lapp
  * @author      Harald Lapp <harald@octris.org>
  */
-class Connection extends \SQLite3 implements \Octris\Core\Db\Device\IConnection
+class Connection extends \SQLite3 implements \Octris\Db\Device\ConnectionInterface
 {
     /**
      * Device the connection belongs to.
      *
-     * @type    \Octris\Core\Db\Device\Sqlite
+     * @type    \Octris\Db\Device\Sqlite
      */
     protected $device;
 
     /**
      * Constructor.
      *
-     * @param   \Octris\Core\Db\Device\Sqlite   $device             Device the connection belongs to.
+     * @param   \Octris\Db\Device\Sqlite            $device             Device the connection belongs to.
      * @param   array                               $options            Connection options.
      */
-    public function __construct(\Octris\Core\Db\Device\Sqlite $device, array $options)
+    public function __construct(\Octris\Db\Device\Sqlite $device, array $options)
     {
         $this->device = $device;
 
@@ -61,10 +61,10 @@ class Connection extends \SQLite3 implements \Octris\Core\Db\Device\IConnection
      * Resolve a database reference.
      *
      * @todo    Implementation.
-     * @param   \Octris\Core\Db\Type\DbRef                          $dbref      Database reference to resolve.
-     * @return  \Octris\Core\Db\Device\Sqlite\DataObject|bool                   Data object or false if reference could not he resolved.
+     * @param   \Octris\Db\Type\DbRef                          $dbref      Database reference to resolve.
+     * @return  \Octris\Db\Device\Sqlite\DataObject|bool                   Data object or false if reference could not he resolved.
      */
-    public function resolve(\Octris\Core\Db\Type\DbRef $dbref)
+    public function resolve(\Octris\Db\Type\DbRef $dbref)
     {
         return false;
     }
@@ -95,11 +95,11 @@ class Connection extends \SQLite3 implements \Octris\Core\Db\Device\IConnection
      * Return instance of collection object.
      *
      * @param   string          $name                               Name of collection to return instance of.
-     * @return  \Octris\Core\Db\Device\Sqlite\Collection        Instance of sqlte collection.
+     * @return  \Octris\Db\Device\Sqlite\Collection                 Instance of sqlte collection.
      */
     public function getCollection($name)
     {
-        return new \Octris\Core\Db\Device\Sqlite\Collection(
+        return new \Octris\Db\Device\Sqlite\Collection(
             $this->device,
             $this,
             $name
@@ -110,25 +110,25 @@ class Connection extends \SQLite3 implements \Octris\Core\Db\Device\IConnection
      * Initialize prepared statement.
      *
      * @param   string                      $sql                SQL statement to use as prepared statement.
-     * @return  \Octris\Core\Db\Sqlite\Statement            Instance of prepared statement.
+     * @return  \Octris\Db\Sqlite\Statement                     Instance of prepared statement.
      */
     public function prepare($sql)
     {
         $stmt = parent::prepare($sql);
 
-        return new \Octris\Core\Db\Device\Sqlite\Statement($this->device, $stmt);
+        return new \Octris\Db\Device\Sqlite\Statement($this->device, $stmt);
     }
 
     /**
      * Execute a SQL query.
      *
      * @param   string                      $sql                SQL statement to execute.
-     * @return  \Octris\Core\Db\Sqlite\Result               Instance of result class.
+     * @return  \Octris\Db\Sqlite\Result                        Instance of result class.
      */
     public function query($sql)
     {
         $result = parent::query($sql);
 
-        return new \Octris\Core\Db\Device\Sqlite\Result($this->device, $result);
+        return new \Octris\Db\Device\Sqlite\Result($this->device, $result);
     }
 }
